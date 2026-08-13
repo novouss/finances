@@ -1,20 +1,26 @@
 import os
+from collections.abc import AsyncIterator
+from pathlib import Path
+
 import aiosqlite
 
-DB_PATH = "database/finance.db"
+DB_PATH = Path(__file__).resolve().parent.parent.parent / "database" / "finance.db"
 
 
 async def _ensure_db_dir() -> None:
     """Ensures that the db directory exists"""
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+    os.makedirs(DB_PATH.parent, exist_ok=True)
 
 
-async def get_db() -> aiosqlite.Connection:
-    """Retrieves the aiosqlite connection with row factory enabled"""
+async def get_db() -> AsyncIterator[aiosqlite.Connection]:
+    """Yields a connections, closes it when the request ends"""
     await _ensure_db_dir()
     db = await aiosqlite.connect(DB_PATH)
     db.row_factory = aiosqlite.Row
-    return db
+    try:
+        yield db
+    finally:
+        await db.close()
 
 
 async def init_db() -> None:

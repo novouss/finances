@@ -1,10 +1,11 @@
 from contextlib import asynccontextmanager
 
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import init_db
 
-import uvicorn
+from .database import init_db
+from .routes import router as transaction_router
 
 
 @asynccontextmanager
@@ -28,11 +29,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(transaction_router)
+
 
 @app.get("/health")
 async def health():
     return {"status": "ok"}
 
 
+def run() -> None:
+    """Entry point for the `backend` console script."""
+    uvicorn.run(
+        "backend.main:app",
+        host="127.0.0.1",
+        port=8000,
+        reload=True,
+        log_level="info",
+    )
+
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True, log_level="info")
+    run()
