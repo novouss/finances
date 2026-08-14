@@ -22,5 +22,5 @@ def test_list_filters_and_pagination(client):
     page = client.get("/transactions", params={"limit": 5, "offset": 5})
     assert len(page.json()) == 5
 
-    by_account = client.get("/transactions", params={"from_account": "Allowance)
+    by_account = client.get("/transactions", params={"from_account": "Allowance"})
     assert all(r["from_account"] == "Allowance" for r in by_account.json())
