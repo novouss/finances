@@ -17,7 +17,6 @@ def test_list_filters_and_pagination(client):
             },
         )
 
-    print(client.get("/transactions").json())
     assert len(client.get("/transactions").json()) == 15
 
     page = client.get("/transactions", params={"limit": 5, "offset": 5})
