@@ -13,7 +13,7 @@ class TransactionCreate(BaseModel):
     from_account: str | None
     to_account: str | None
     amount: float = Field(..., ge=0)
-    description: str | None
+    description: str | None = None
 
 
 async def create(db: aiosqlite.Connection, scheme: TransactionCreate) -> dict:

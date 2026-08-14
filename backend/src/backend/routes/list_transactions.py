@@ -19,7 +19,7 @@ async def get_list(
     sort_by: str = "date",
     sort_order: str = "DESC",
     offset: int = 0,
-    limit: int = 10,
+    limit: int = -1,
 ) -> list[dict]:
     conditions = []
     params: list[str] = []
@@ -66,7 +66,7 @@ async def list_transactions(
     sort_by: str = "date",
     sort_order: str = "DESC",
     offset: int = 0,
-    limit: int = 10,
+    limit: int = -1,
     db: aiosqlite.Connection = Depends(get_db),
 ):
     """Retrieves a list of transactions based on provided parameters"""
