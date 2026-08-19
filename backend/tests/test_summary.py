@@ -42,7 +42,6 @@ def test_summary(client):
         "/transactions/summary", params={"from_account": "Allowance"}
     ).json()
 
-    print(summary)
     assert summary["balance"] == income - sum_expense
     assert summary["sum_income"] == income
     assert summary["sum_expense"] == sum_expense
