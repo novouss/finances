@@ -9,7 +9,7 @@ def test_update_leaves_other_fields(client):
         },
     ).json()
     updated = client.patch(
-        f"/transactions/{created['id']}", json={"description": "edited"}
+        f"/transactions/id/{created['id']}", json={"description": "edited"}
     )
     assert updated.status_code == 200
     assert updated.json()["description"] == "edited"

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from ..database import get_db
 
-router = APIRouter(prefix="/transactions", tags=["transactions"])
+router = APIRouter(prefix="/transactions/id", tags=["transactions"])
 
 
 async def delete(db: aiosqlite.Connection, id: int) -> bool:

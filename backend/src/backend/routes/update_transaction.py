@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 from ..database import get_db
 from .get_transaction import get_by_id
 
-router = APIRouter(prefix="/transactions", tags=["transactions"])
+router = APIRouter(prefix="/transactions/id", tags=["transactions"])
 
 
 class TransactionUpdate(BaseModel):

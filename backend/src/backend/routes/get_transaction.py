@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 from ..database import get_db
 
-router = APIRouter(prefix="/transactions", tags=["transactions"])
+router = APIRouter(prefix="/transactions/id", tags=["transactions"])
 
 
 class TransactionResponse(BaseModel):

@@ -31,7 +31,7 @@ async def create(db: aiosqlite.Connection, scheme: TransactionCreate) -> dict:
     await db.commit()
     async with db.execute("SELECT last_insert_rowid()") as cur:
         row = await cur.fetchone()
-        return await get_by_id(db, row[0])
+        return await get_by_id(db=db, id=row[0])
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)

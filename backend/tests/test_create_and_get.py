@@ -13,6 +13,6 @@ def test_create_and_get(client):
     body = created.json()
     assert body["amount"] == 150.0
     assert body["description"] == "Transfer"
-    fetched = client.get(f"/transactions/{body['id']}")
+    fetched = client.get(f"/transactions/id/{body['id']}")
     assert fetched.status_code == 200
     assert fetched.json() == body

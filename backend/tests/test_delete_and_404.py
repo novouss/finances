@@ -8,6 +8,6 @@ def test_delete_and_404(client):
             "amount": 5.0,
         },
     ).json()
-    assert client.delete(f"/transactions/{created['id']}").status_code == 204
-    assert client.get(f"/transactions/{created['id']}").status_code == 404
-    assert client.delete("/transactions/999").status_code == 404
+    assert client.delete(f"/transactions/id/{created['id']}").status_code == 204
+    assert client.get(f"/transactions/id/{created['id']}").status_code == 404
+    assert client.delete("/transactions/id/999").status_code == 404
