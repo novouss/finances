@@ -5,6 +5,8 @@ EXPECTED_KEYS = {
     "avg_expense",
     "min_expense",
     "max_expense",
+    "date_from",
+    "date_to",
 }
 
 
@@ -41,3 +43,5 @@ def test_summary_math(client):
     assert s["avg_expense"] == 50.0
     assert s["min_expense"] == 25
     assert s["max_expense"] == 100
+    assert s["date_from"] == "2026-08-01"
+    assert s["date_to"] == "2026-08-04"
