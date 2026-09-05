@@ -17,7 +17,7 @@ async def summary(
 
     account_pattern = f"%{from_account}%"
     conditions.append("(to_account LIKE ? OR from_account LIKE ?)")
-    params.extend([account_pattern] * 9)
+    params.extend([account_pattern] * 10)
 
     if date_from:
         conditions.append("date >= ?")
@@ -32,12 +32,15 @@ async def summary(
     query = f"""
         SELECT
             SUM(CASE WHEN to_account LIKE ? THEN amount ELSE 0 END) as sum_income,
+            AVG(CASE WHEN to_account LIKE ? THEN amount ELSE 0 END) as avg_income,
+            MIN(CASE WHEN to_account LIKE ? THEN amount ELSE 0 END) as min_income,
+            MAX(CASE WHEN to_account LIKE ? THEN amount ELSE 0 END) as max_income,
             SUM(CASE WHEN from_account LIKE ? THEN amount ELSE 0 END) as sum_expense,
             AVG(CASE WHEN from_account LIKE ? THEN amount END) as avg_expense,
             MIN(CASE WHEN from_account LIKE ? THEN amount END) as min_expense,
             MAX(CASE WHEN from_account LIKE ? THEN amount END) as max_expense,
-            MIN(CASE WHEN from_account LIKE ? THEN date END) as date_from, 
-            MAX(CASE WHEN from_account LIKE ? THEN date END) as date_to
+            MIN(date) as date_from, 
+            MAX(date) as date_to
         FROM transactions
         {where}
     """
@@ -67,10 +70,13 @@ async def get_summary(
     return {
         "balance": result["balance"] or 0,
         "sum_income": result["sum_income"] or 0,
+        "avg_income": result["avg_income"] or 0,
+        "min_income": result["min_income"] or 0,
+        "max_income": result["max_income"] or 0,
         "sum_expense": result["sum_expense"] or 0,
         "avg_expense": result["avg_expense"] or 0,
         "min_expense": result["min_expense"] or 0,
         "max_expense": result["max_expense"] or 0,
-        "date_from": result["date_from"] or 0,
-        "date_to": result["date_to"] or 0,
+        "date_from": result["date_from"] or "",
+        "date_to": result["date_to"] or "",
     }
