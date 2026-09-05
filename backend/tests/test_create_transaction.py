@@ -16,3 +16,13 @@ def test_create_and_get(client):
     fetched = client.get(f"/transactions/id/{body['id']}")
     assert fetched.status_code == 200
     assert fetched.json() == body
+
+
+def test_create_validation(client):
+    assert client.post("/transactions", json={"amount": 1.0}).status_code == 422
+    assert (
+        client.post(
+            "/transactions", json={"date": "2026-08-14", "amount": -5.0}
+        ).status_code
+        == 422
+    )

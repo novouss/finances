@@ -1,6 +1,12 @@
 import random
 
 
+def test_list_empty(client):
+    response = client.get("/transactions")
+    assert response.status_code == 200
+    assert response.json() == []
+
+
 def test_list_filters_and_pagination(client):
     for i in range(15):
         client.post(
